@@ -29,7 +29,12 @@
             téléphone ci-dessous pour avoir une chance de faire tourner la roue
             et d'économiser gros pour votre prochain achat.
           </h3>
-          <input class="input" type="tel" v-model="phoneNumber" />
+          <input
+            class="input"
+            placeholder="N° telephone"
+            type="tel"
+            v-model="phoneNumber"
+          />
           <div class="button-confirm" @click="checkPhone">
             Tenetez votre chance!
           </div>
@@ -133,6 +138,12 @@ export default {
     checkPhone() {
       if (this.phoneNumber.length == 8) {
         this.showSpin = true;
+      } else {
+        this.showPopupPrize(
+          "Erreur",
+          `Le numero de telephone est erroné`,
+          "Fermer"
+        );
       }
     },
     onImageRotateStart() {
@@ -140,7 +151,6 @@ export default {
     },
 
     onRotateEnd(prize) {
-      this.showSpin = false;
       if (prize.name == true) {
         this.showPopupPrize(
           prize.value,
@@ -154,6 +164,8 @@ export default {
           "Réessayer"
         );
       }
+      this.showSpin = false;
+      this.phoneNumber = "";
     },
     // Simulate the request back-end interface, verified: whether to pass the verification, duration: delay time
     DoServiceVerify(verified, duration) {
